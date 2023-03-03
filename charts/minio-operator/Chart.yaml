@@ -1,0 +1,7 @@
+apiVersion: v2
+name: minio-operator
+description: Deploy the minIO operator through a helm chart
+type: application
+# Versions follow Semantic Versioning (https://semver.org/)
+version: 0.0.1
+appVersion: 4.5.7
