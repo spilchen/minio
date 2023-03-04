@@ -1,0 +1,26 @@
+# Job to create a bucket in minio
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-s3-bucket
+spec:
+  ttlSecondsAfterFinished: 360
+  template:
+    spec:
+      containers:
+        - name: aws
+          image: amazon/aws-cli:2.2.24
+          command:
+            [
+              "bash",
+              "-c",
+              "aws s3 rb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }} --force || :; aws s3 mb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }}",
+            ]
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.accessKey }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.secretKey }}
+            - name: AWS_EC2_METADATA_DISABLED
+              value: 'true'
+      restartPolicy: Never

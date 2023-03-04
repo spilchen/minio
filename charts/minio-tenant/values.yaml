@@ -1,0 +1,13 @@
+# Default values for minio-tenant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Credentials to access the minio endpoint
+accessKey: minio
+secretKey: minio123
+
+# Location of the minio endpoint to connect to
+endpoint: http://minio
+
+# Name of the s3 bucket to create
+bucketName: s3://nimbusdb

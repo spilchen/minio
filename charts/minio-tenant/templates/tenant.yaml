@@ -1,0 +1,24 @@
+# MinIO Tenant Definition
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  name: minio
+spec:
+  configuration:
+    name: storage-configuration
+  image: quay.io/minio/minio:RELEASE.2023-01-12T02-06-16Z
+  imagePullPolicy: IfNotPresent
+  pools:
+    - servers: 1
+      volumesPerServer: 4
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 250Mi
+  mountPath: /export
+  requestAutoCert: false
