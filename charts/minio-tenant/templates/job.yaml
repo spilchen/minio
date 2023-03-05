@@ -5,6 +5,7 @@ metadata:
   name: create-s3-bucket
 spec:
   ttlSecondsAfterFinished: 360
+  backoffLimit: 50
   template:
     spec:
       containers:
