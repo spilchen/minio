@@ -15,13 +15,18 @@ spec:
             [
               "bash",
               "-c",
-              "aws s3 rb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }} --force || :; aws s3 mb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }}",
+              "set -o xtrace && source /minio-storage-config/config.env && export AWS_ACCESS_KEY_ID=$MINIO_ROOT_USER && export AWS_SECRET_ACCESS_KEY=$MINIO_ROOT_PASSWORD && aws s3 rb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }} --force || : && aws s3 mb --endpoint {{ .Values.endpoint }} {{ .Values.bucketName }}",
             ]
           env:
-            - name: AWS_ACCESS_KEY_ID
-              value: {{ .Values.accessKey }}
-            - name: AWS_SECRET_ACCESS_KEY
-              value: {{ .Values.secretKey }}
-            - name: AWS_EC2_METADATA_DISABLED
-              value: 'true'
+          - name: AWS_EC2_METADATA_DISABLED
+            value: 'true'
+          volumeMounts:
+          - name: env-volume
+            mountPath: /minio-storage-config
+            readOnly: true
       restartPolicy: Never
+      volumes:
+      - name: env-volume
+        secret:
+          defaultMode: 0777
+          secretName: {{ .Values.storageConfigSecret }}

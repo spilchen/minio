@@ -2,9 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Credentials to access the minio endpoint
-accessKey: minio
-secretKey: minio123
+# Secret that contains the storage config, which includes the
+# accesskey/secretkey. It must be of the form like this:
+# https://raw.githubusercontent.com/minio/operator/854e1dd3476a4c16cc69b07f7cd6db8d7e37f92a/examples/kustomization/base/tenant-config.yaml
+storageConfigSecret: ""
 
 # Location of the minio endpoint to connect to
 endpoint: http://minio
